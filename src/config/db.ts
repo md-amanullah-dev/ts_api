@@ -1,5 +1,4 @@
 
-console.log('[startup] db.ts loaded');
 import mongoose from 'mongoose';
 
 const connectDB = async () => {

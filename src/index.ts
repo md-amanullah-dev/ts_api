@@ -1,5 +1,4 @@
 
-console.log('[startup] index.ts loaded');
 import app from './app';
 import connectDB from './config/db';
 
