@@ -28,7 +28,7 @@ const signup = async (req: Request, res: Response) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Save new restaurant
+    // Save new user
     const newRestaurant = new UserModel({
       restaurantName,
       email,
@@ -40,13 +40,27 @@ const signup = async (req: Request, res: Response) => {
 
     await newRestaurant.save();
 
-    res.status(201).json({ message: "Signup successful", userId: newRestaurant._id });
+    // ✅ Auto-login: Create JWT
+    const token = jwt.sign(
+      { id: newRestaurant._id, email: newRestaurant.email },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "2h" }
+    );
+
+    return res.status(201).json({
+      message: "Signup successful",
+      token,
+      user: {
+        id: newRestaurant._id,
+        name: newRestaurant.restaurantName,
+        email: newRestaurant.email,
+      },
+    });
   } catch (error) {
     console.error("Signup error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
-
 
 const login = async (req: Request, res: Response) => {
     try {
@@ -90,9 +104,5 @@ const login = async (req: Request, res: Response) => {
     }
   };
   
-  
-
-
-
 
 export default { signup,login };
