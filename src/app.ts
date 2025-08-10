@@ -8,6 +8,7 @@ import auth from './route/auth';
 import role from './route/role';  
 import user from './route/user';  
 import restaurant from './route/resturant';  
+import menuItem from './route/menu';  
 import media from './route/media';  
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use('/api', auth);
 app.use('/api', role);
 app.use('/api', user);
 app.use('/api', restaurant);
+app.use('/api', menuItem);
 app.use('/api', media);
 
 app.get('/', (_req, res) => {
